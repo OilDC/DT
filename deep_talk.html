@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Deep Talk</title>
+<style>
+  :root{
+    --bg:#F8FAFF;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent1: #FF7BA9; /* pink */
+    --accent2: #7CC6FF; /* blue */
+    --accent3: #9AE6B4; /* green */
+    --accent4: #FFD58A; /* yellow */
+    --accent5: #C59CFF; /* purple */
+    --accent6: #FF7F7F; /* coral */
+    --glass: rgba(255,255,255,0.6);
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#F0F7F4);font-family:"Sarabun","Prompt","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#0b1220}
+  .wrap{max-width:980px;margin:0 auto;padding:18px;}
+  header{display:flex;align-items:center;gap:12px;padding:10px 6px;border-radius:14px;background:linear-gradient(90deg,#FFD1E8 0%, #DCEBFF 45%, #EBD7FF 100%);box-shadow:0 6px 18px rgba(16,24,40,0.08)}
+  .logo{
+    width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#FF8AB0);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;box-shadow:0 6px 14px rgba(0,0,0,0.08)
+  }
+  h1{margin:0;font-size:20px}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .card{margin-top:18px;background:var(--card);border-radius:16px;padding:18px;box-shadow:0 12px 30px rgba(15,23,42,0.06)}
+  .question-area{min-height:180px;display:flex;align-items:flex-start;gap:12px}
+  .question-num{font-weight:700;color:var(--muted);opacity:0.9}
+  .question-text{font-size:18px;line-height:1.6;color:#0b1220;white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word}
+  .controls{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .level-btn{flex:1 1 30%;min-width:140px;border:0;padding:12px 14px;border-radius:999px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(11,18,32,0.06);transition:transform .12s ease,opacity .12s}
+  .level-btn:active{transform:translateY(2px)}
+  .accent1{background:linear-gradient(90deg,#FF6B6B,#FF8AB0)}
+  .accent2{background:linear-gradient(90deg,#4D96FF,#7CC6FF)}
+  .accent3{background:linear-gradient(90deg,#00C48A,#9AE6B4)}
+  .accent4{background:linear-gradient(90deg,#FBBF24,#FFD58A)}
+  .accent5{background:linear-gradient(90deg,#A76BFF,#C59CFF)}
+  .accent6{background:linear-gradient(90deg,#FF6E6E,#FF7F7F)}
+  .all-btn{background:linear-gradient(90deg,#60A5FA,#7CC6FF); padding:12px 18px;border-radius:12px;color:white;font-weight:700;border:0;cursor:pointer;box-shadow:0 10px 24px rgba(79,70,229,0.08)}
+  .actions{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .small-btn{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+  /* responsive */
+  @media (max-width:560px){
+    .level-btn{flex:1 1 45%;min-width:130px;font-size:14px;padding:10px}
+    .question-text{font-size:16px}
+    header{padding:10px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">DT</div>
+      <div>
+        <h1>Deep Talk</h1>
+        <p class="lead">สุ่มคำถามลึก ๆ เล่นกับเพื่อน — ออฟไลน์</p>
+      </div>
+    </header>
+
+    <div class="card" id="card">
+      <div class="question-area">
+        <div style="flex:0 0 54px;display:flex;align-items:flex-start;justify-content:flex-start">
+          <div class="question-num" id="qnum">#</div>
+        </div>
+        <div style="flex:1">
+          <div class="question-text" id="qtext">กดปุ่มระดับด้านล่างเพื่อสุ่มคำถาม</div>
+        </div>
+      </div>
+
+      <div class="controls" style="margin-top:18px">
+        <button class="all-btn" id="btn-all">สุ่มทุกระดับ</button>
+      </div>
+
+      <div class="controls" style="margin-top:12px">
+        <button class="level-btn accent1" data-lvl="1">เบา ๆ เปิดใจ</button>
+        <button class="level-btn accent2" data-lvl="2">เข้าใจลึก</button>
+        <button class="level-btn accent3" data-lvl="3">เปราะบาง</button>
+        <button class="level-btn accent4" data-lvl="4">อนาคต / เติบโต</button>
+        <button class="level-btn accent5" data-lvl="5">ลึกสุดหัวใจ</button>
+        <button class="level-btn accent6" id="btn-rand">สุ่มด่วน</button>
+      </div>
+
+      <div class="actions">
+        <button class="small-btn" id="copyBtn">คัดลอก</button>
+        <button class="small-btn" id="shareBtn">แชร์</button>
+        <button class="small-btn" id="nextBtn">อีกข้อ</button>
+      </div>
+    </div>
+
+    <footer>ไฟล์นี้เปิดได้แบบออฟไลน์ — แชร์ไฟล์ .html ให้เพื่อนเปิดในมือถือได้เลย</footer>
+  </div>
+
+<script>
+/* คลังคำถาม 50 ข้อ (แบ่งระดับ 1-5) */
+const questions = {
+  1: [
+"1. ช่วงนี้มีอะไรเล็ก ๆ ที่ทำให้คุณยิ้มได้โดยที่ฉันอาจไม่รู้บ้าง?",
+"2. อะไรคือสิ่งเล็กน้อยที่คุณชอบเกี่ยวกับเราที่สุด?",
+"3. ถ้าให้ใช้สามคำอธิบายความสัมพันธ์ของเราในตอนนี้ คุณจะใช้คำว่าอะไร?",
+"4. มีอะไรไหมที่คุณอยากให้เราทำด้วยกันบ่อยขึ้น?",
+"5. อะไรคือช่วงเวลาที่คุณรู้สึกสบายใจที่สุดเมื่ออยู่กับฉัน?",
+"6. คุณคิดว่าฉันเข้าใจคุณในแบบที่คนอื่นไม่เข้าใจยังไงบ้าง?",
+"7. สิ่งเล็ก ๆ ที่คุณทำให้ฉันแล้วภูมิใจที่สุดคืออะไร?",
+"8. คุณจำได้ไหมว่าตอนไหนที่เริ่มรู้สึกว่า เราสำคัญสำหรับคุณ?",
+"9. ถ้าวันนี้ต้องขอบคุณฉันเรื่องหนึ่ง คุณจะขอบคุณเรื่องอะไร?",
+"10. คุณคิดว่าความรักของเรามีพลังพิเศษตรงไหน?"
+  ],
+  2: [
+"11. คุณรู้สึกว่าความรักทำให้คุณเป็นคนแบบไหน?",
+"12. เวลาคุณเครียดหรือไม่โอเค คุณอยากให้คนรักพูดอะไร หรือไม่พูดอะไร?",
+"13. มีอะไรในอดีตที่ยังส่งผลต่อวิธีที่คุณรักในตอนนี้ไหม?",
+"14. คุณรู้สึกว่าตัวตนแท้จริงของคุณคือแบบไหน — และฉันได้เห็นด้านนั้นหรือยัง?",
+"15. คุณมองว่า ความสัมพันธ์ที่ดีต่อใจ ควรมีองค์ประกอบอะไรบ้าง?",
+"16. คุณกลัวที่สุดว่าอะไรจะเกิดขึ้นกับความสัมพันธ์ของเรา?",
+"17. เวลาคุณรู้สึกไม่มั่นคงในความรัก คุณอยากให้ฉันรับมือยังไง?",
+"18. คุณเคยมีช่วงเวลาที่รู้สึกว่าฉันไม่เข้าใจคุณเลยไหม? ตอนนั้นคุณรู้สึกยังไง?",
+"19. ถ้าเราทะเลาะกัน คุณอยากให้ฉันทำอะไรเพื่อให้คุณรู้ว่าฉันยังรักอยู่?",
+"20. คุณให้อภัยตัวเองได้ง่ายกว่าการให้อภัยคนอื่นไหม?",
+"21. คุณรู้สึกว่าความสัมพันธ์ครั้งนี้ต่างจากความรักในอดีตยังไง?",
+"22. คุณคิดว่าความรักกับความผูกพันต่างกันไหม?",
+"23. เวลาเราห่างกัน คุณอยากให้ฉันแสดงออกยังไงว่าฉันยังใส่ใจอยู่?",
+"24. อะไรคือสิ่งที่คุณคิดว่าฉันยังไม่เข้าใจในตัวคุณดีพอ?",
+"25. คุณคิดว่าความเข้าใจสำคัญกว่าความโรแมนติกไหม?"
+  ],
+  3: [
+"26. คุณเคยกลัวไหมว่าเราจะไม่ไปถึงอนาคตที่หวังไว้ด้วยกัน?",
+"27. เวลาคุณเศร้าหรือโดดเดี่ยว คุณอยากให้ฉันอยู่ข้าง ๆ แบบไหน?",
+"28. คุณรู้สึกว่าเรายังเหลืออะไรที่ต้องเรียนรู้ซึ่งกันและกันอีกไหม?",
+"29. ถ้ามีบางอย่างที่ฉันควรรู้เพื่อจะรักคุณให้ดีขึ้น มันคืออะไร?",
+"30. คุณคิดว่าฉันทำให้คุณรู้สึกปลอดภัยทางใจแค่ไหน?",
+"31. ถ้าวันหนึ่งเราต้องห่างกัน คุณอยากให้เรายังเชื่อในอะไรเกี่ยวกับกันและกัน?",
+"32. คุณคิดว่าความเงียบในความสัมพันธ์ของเราหมายถึงอะไร?",
+"33. คุณคิดว่าเราสองคนมีวิธีเยียวยากันยังไง?",
+"34. ถ้าความสัมพันธ์คือกระจกสะท้อนตัวเรา คุณคิดว่าฉันสะท้อนส่วนไหนของคุณ?",
+"35. คุณเคยกลัวจะเสียฉันไปไหม? แล้วตอนนั้นคิดอะไรอยู่?"
+  ],
+  4: [
+"36. คุณคิดว่าเราทำให้กันเติบโตในเรื่องไหนบ้างตั้งแต่คบกัน?",
+"37. ถ้าอีก 5 ปีเรายังอยู่ด้วยกัน คุณอยากให้เรายังเป็นคู่แบบไหน?",
+"38. ถ้าเราต้องเจอช่วงเวลายาก ๆ ด้วยกัน คุณอยากให้เรารับมือยังไง?",
+"39. คุณคิดว่า ความรักที่ยั่งยืน ต้องอาศัยอะไรเป็นพื้นฐานที่สุด?",
+"40. ถ้าวันหนึ่งเรามองย้อนกลับไป คุณอยากให้ความสัมพันธ์นี้สอนเราว่าอะไร?",
+"41. ถ้าความรักของเรามีชื่อเรื่องหนัง มันจะชื่อว่าอะไร?",
+"42. คุณอยากสร้างความทรงจำแบบไหนกับฉันมากที่สุดในปีหน้า?",
+"43. ถ้าเราจะสร้างบ้านหรือชีวิตร่วมกัน คุณอยากให้มันมีบรรยากาศแบบไหน?",
+"44. คุณอยากให้เรายังคุยกันแบบไหนแม้ตอนแก่?",
+"45. คุณอยากให้ลูก (ถ้ามี) รู้ว่าความรักของพ่อแม่เขาเป็นแบบไหน?"
+  ],
+  5: [
+"46. คุณรู้สึกว่าความรักนี้ได้เปลี่ยนวิธีที่คุณมองชีวิตยังไง?",
+"47. ถ้าฉันต้องผ่านช่วงแย่ที่สุดของชีวิต คุณอยากอยู่ข้างฉันแบบไหน?",
+"48. มีสิ่งใดที่คุณไม่เคยพูดกับใครแต่รู้สึกว่าฉันอาจเข้าใจได้ไหม?",
+"49. ถ้าความรักเป็นบทเรียน คุณคิดว่าบทเรียนของเราคืออะไร?",
+"50. ถ้าเรามีเวลาเหลือด้วยกันอีกแค่วันเดียว คุณอยากใช้มันยังไง?"
+  ]
+};
+
+/* helpers */
+function randFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function setQuestion(num,text){
+  document.getElementById('qnum').textContent = num ? `ข้อ ${num}` : '#';
+  document.getElementById('qtext').textContent = text;
+}
+
+/* flatten all */
+const all = [].concat(...Object.values(questions));
+
+/* handle level buttons */
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const lvl = btn.dataset.lvl ? Number(btn.dataset.lvl) : 0;
+    if(lvl && questions[lvl]){
+      const q = randFrom(questions[lvl]);
+      // try extract number prefix for nicer label
+      const m = q.match(/^(\d+)\.\s*(.*)/);
+      setQuestion(m?m[1]:'', m?m[2]:q);
+      lastShown = {lvl, q};
+    } else {
+      const q = randFrom(all);
+      const m = q.match(/^(\d+)\.\s*(.*)/);
+      setQuestion(m?m[1]:'', m?m[2]:q);
+      lastShown = {lvl:0,q};
+    }
+  });
+});
+
+/* all / random quick */
+document.getElementById('btn-all').addEventListener('click',()=>{
+  const q = randFrom(all);
+  const m = q.match(/^(\d+)\.\s*(.*)/);
+  setQuestion(m?m[1]:'', m?m[2]:q);
+  lastShown = {lvl:0,q};
+});
+document.getElementById('btn-rand').addEventListener('click',()=>{
+  const q = randFrom(all);
+  const m = q.match(/^(\d+)\.\s*(.*)/);
+  setQuestion(m?m[1]:'', m?m[2]:q);
+  lastShown = {lvl:0,q};
+});
+
+/* next */
+let lastShown = null;
+document.getElementById('nextBtn').addEventListener('click',()=>{
+  if(!lastShown){ // just random if none
+    const q = randFrom(all); const m=q.match(/^(\d+)\.\s*(.*)/);
+    setQuestion(m?m[1]:'', m?m[2]:q); lastShown={lvl:0,q};
+    return;
+  }
+  const lvl = lastShown.lvl || 0;
+  if(lvl && questions[lvl]){
+    const q = randFrom(questions[lvl]); const m=q.match(/^(\d+)\.\s*(.*)/);
+    setQuestion(m?m[1]:'', m?m[2]:q); lastShown={lvl,q};
+  } else {
+    const q = randFrom(all); const m=q.match(/^(\d+)\.\s*(.*)/);
+    setQuestion(m?m[1]:'', m?m[2]:q); lastShown={lvl:0,q};
+  }
+});
+
+/* copy/share */
+document.getElementById('copyBtn').addEventListener('click',async()=>{
+  const txt = document.getElementById('qtext').textContent;
+  try{
+    await navigator.clipboard.writeText(txt);
+    alert('คัดลอกแล้ว: ' + txt.slice(0,60) + (txt.length>60?'...':''));
+  }catch(e){
+    // fallback
+    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    alert('คัดลอกแล้ว');
+  }
+});
+document.getElementById('shareBtn').addEventListener('click',async()=>{
+  const txt = document.getElementById('qtext').textContent;
+  if(navigator.share){ navigator.share({title:'Deep Talk',text:txt}).catch(()=>{}); }
+  else{ alert('แชร์ไม่ได้ในเบราว์เซอร์นี้ — ใช้ "คัดลอก" แล้วยิงในแชทแทน'); }
+});
+
+/* init show */
+setQuestion('','กดปุ่มระดับเพื่อสุ่มคำถาม — หรือกด "สุ่มทุกระดับ"');
+</script>
+</body>
+</html>
